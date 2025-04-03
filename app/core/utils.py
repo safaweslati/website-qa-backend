@@ -1,4 +1,3 @@
-# app/core/utils.py
 import json
 import re
 import logging
@@ -23,7 +22,7 @@ class AnalysisUtils:
                 ],
                 "summary": "<brief_summary_of_findings>"
             }
-            
+
             Keep your JSON compact and valid. Ensure all strings are properly escaped.
             The entire JSON must be less than 2000 characters total.
             Ensure you complete the entire JSON object including the closing brace.
@@ -41,7 +40,8 @@ class AnalysisUtils:
 
         # First try direct JSON parse
         try:
-            return json.loads(output_str)
+            parsed_json = json.loads(output_str)
+            return AnalysisUtils._validate_json(parsed_json)
         except json.JSONDecodeError:
             pass
 
@@ -49,25 +49,52 @@ class AnalysisUtils:
         json_match = re.search(r'```json\n?(.*?)\n?```', output_str, re.DOTALL)
         if json_match:
             try:
-                return json.loads(json_match.group(1).strip())
+                parsed_json = json.loads(json_match.group(1).strip())
+                return AnalysisUtils._validate_json(parsed_json)
             except json.JSONDecodeError:
                 pass
 
         # Try finding innermost JSON
-        json_candidates = re.findall(r'\{.*\}', output_str, re.DOTALL)
-        if json_candidates:
+        json_candidates = re.findall(r'\{.*?\}', output_str, re.DOTALL)
+        for candidate in json_candidates[::-1]:  # Reverse to try the last one first
             try:
-                return json.loads(json_candidates[-1])  # Try last candidate
+                parsed_json = json.loads(candidate)
+                return AnalysisUtils._validate_json(parsed_json)
             except json.JSONDecodeError:
-                pass
+                continue
 
         # Fallback: Return error structure
         return {
             "score": 0,
-            "issues": [{
-                "severity": "high",
-                "description": "Failed to parse agent output",
-                "recommendation": "Check agent response format"
-            }],
+            "issues": [
+                {
+                    "severity": "high",
+                    "description": "Failed to parse agent output",
+                    "recommendation": "Check agent response format"
+                }
+            ],
             "summary": "Output parsing failed"
         }
+
+    @staticmethod
+    def _validate_json(parsed_json: Dict[str, Any]) -> Dict[str, Any]:
+        """Ensures the JSON structure is valid and fields contain expected values"""
+        valid_severities = {"low", "medium", "high"}
+        
+        if not isinstance(parsed_json, dict):
+            return {
+                "score": 0,
+                "issues": [{
+                    "severity": "high",
+                    "description": "Invalid JSON format",
+                    "recommendation": "Ensure output follows expected JSON schema"
+                }],
+                "summary": "Invalid JSON structure"
+            }
+        
+        if "issues" in parsed_json and isinstance(parsed_json["issues"], list):
+            for issue in parsed_json["issues"]:
+                if issue.get("severity") not in valid_severities:
+                    issue["severity"] = "medium"  # Default to medium if invalid
+        
+        return parsed_json

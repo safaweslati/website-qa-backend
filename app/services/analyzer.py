@@ -43,7 +43,6 @@ class WebsiteAnalyzer:
                 agents=[a for a, _, _ in crew_tasks],
                 tasks=[t for _, t, _ in crew_tasks],
                 verbose=True,
-                process=Process.sequential,
             )
 
             try:

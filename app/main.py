@@ -54,6 +54,17 @@ def analyze_website(request: WebsiteAnalysisRequest):
             detail="Website analysis failed"
         )
 
+@app.get("/test", tags=["Testing"])
+async def test_endpoint():
+    """
+    Test endpoint to verify API is running
+    Returns simple health check response
+    """
+    return {
+        "status": "API is working",
+        "version": "1.0.0",
+        "health": "good"
+    }
 
 if __name__ == "__main__":
     # Run directly with hardcoded values

@@ -35,8 +35,6 @@ class SEOAgent:
             description=f"""
             Analyze the SEO of the webpage at {url}.
             
-            HTML Content Preview (first 5000 chars):
-            {html_content[:5000]}
             
             Metadata:
             Title: {metadata.get('title')}
@@ -47,14 +45,11 @@ class SEOAgent:
             Has Canonical URL: {metadata.get('has_canonical', 'Unknown')}
             
             Evaluate the following aspects:
-            1. Meta tags (title, description, keywords, robots)
+            1. Meta tags (title, description, keywords)
             2. URL structure and friendliness
             3. Canonical URL implementation
-            4. Structured data/schema markup
-            5. Content keyword optimization
-            6. Internal linking structure and anchor text
-            7. Heading structure (exclusively from SEO perspective)
-            8. Open Graph and social media tags
+            4. Content keyword optimization
+            5. Heading structure (exclusively from SEO perspective)
             
             Focus STRICTLY on search engine optimization factors.
             

@@ -7,8 +7,8 @@ AI-powered website quality analyzer with specialized agents for accessibility, S
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/web-analysis-tool.git
-cd web-analysis-tool
+git clone https://github.com/safaweslati/website-qa-backend.git
+cd website-qa-backend
 ```
 
 2. Install dependencies:

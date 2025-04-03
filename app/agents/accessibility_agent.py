@@ -47,9 +47,7 @@ class AccessibilityAgent:
             2. Keyboard navigability indicators (focus states, tabindex)
             3. ARIA attributes and roles
             4. Form accessibility (labels, error messages)
-            5. Color and contrast issues (where detectable in code)
-            6. Skip navigation links
-            7. Language declaration
+            5. Language declaration
             
             
             Focus STRICTLY on accessibility concerns for users with disabilities.

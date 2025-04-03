@@ -49,12 +49,9 @@ class UXAgent:
             Evaluate the following aspects:
             1. Navigation and information architecture
             2. Content readability and organization
-            3. Visual hierarchy indicators
-            4. Responsiveness and mobile-friendliness indicators
-            5. Call-to-action effectiveness
-            6. User flow and journey obstructions
-            7. Form usability (from UX perspective only)
-            8. Page load indicators (visible in HTML)
+            3. Responsiveness and mobile-friendliness indicators
+            4. Call-to-action effectiveness
+            5. Form usability (from UX perspective only)
 
             Focus STRICTLY on user experience factors that affect how users interact with the site.
             
